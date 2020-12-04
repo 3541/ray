@@ -6,6 +6,8 @@ mod vector;
 
 use std::io::{self, BufWriter, Write};
 
+use once_cell::sync::OnceCell;
+use rand::distributions::{Distribution, Uniform};
 use rand::Rng;
 
 use camera::Camera;
@@ -13,6 +15,12 @@ use color::Color;
 use ray::Ray;
 use surface::{material, Scatter, Sphere, Surface, SurfaceList};
 use vector::Vector;
+
+fn random_unit() -> f32 {
+    static DIST: OnceCell<Uniform<f32>> = OnceCell::new();
+    DIST.get_or_init(|| Uniform::new(0.0, 1.0))
+        .sample(&mut rand::thread_rng())
+}
 
 fn ray_color(ray: &Ray, world: &dyn Surface, depth: usize) -> Color {
     if depth == 0 {
@@ -54,6 +62,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         Sphere::new(Vector::new(0.0, -100.5, -1.0), 100.0, &mat_ground),
         Sphere::new(Vector::new(0.0, 0.0, -1.0), 0.5, &mat_center),
         Sphere::new(Vector::new(-1.0, 0.0, -1.0), 0.5, &mat_left),
+        Sphere::new(Vector::new(-1.0, 0.0, -1.0), -0.4, &mat_left),
         Sphere::new(Vector::new(1.0, 0.0, -1.0), 0.5, &mat_right),
     ];
 

@@ -24,7 +24,7 @@ impl<'m> Hit<'m> {
         material: &'m dyn Material,
         t: f32,
     ) -> Hit<'m> {
-        assert!(outward_normal.length() - 1.0 <= 1e-6);
+        assert!(outward_normal.length() - 1.0 <= 1e-4);
         let front_face = ray.direction().dot(&outward_normal) < 0.0;
         Hit {
             point,

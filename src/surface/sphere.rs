@@ -40,7 +40,7 @@ impl Surface for Sphere<'_> {
                     Hit::new(
                         ray,
                         intersection,
-                        (intersection - self.center).unit(),
+                        (intersection - self.center) / self.radius,
                         self.material,
                         r,
                     )

@@ -63,9 +63,10 @@ impl Vector {
         let incident = self.unit();
         let refracted_perpendicular =
             index_ratio * (incident + normal.dot(&-incident).min(1.0) * normal);
-        let refracted_parallel = -(1.0 - refracted_perpendicular.length_squared())
+        let refracted_parallel = (1.0 - refracted_perpendicular.length_squared())
             .abs()
             .sqrt()
+            .neg()
             * normal;
         refracted_parallel + refracted_perpendicular
     }
