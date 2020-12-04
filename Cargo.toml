@@ -9,6 +9,8 @@ anyhow = "*"
 derive_more = "*"
 rand = "*"
 once_cell = "*"
+num_cpus = "*"
+indicatif = "*"
 
 [profile.release]
 lto = true

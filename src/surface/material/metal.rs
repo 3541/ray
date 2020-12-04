@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use super::{Material, Scatter};
 use crate::{surface::Hit, Color, Ray, Vector};
 
@@ -7,11 +9,11 @@ pub struct Metal {
 }
 
 impl Metal {
-    pub fn new(albedo: Color, fuzz: f32) -> Self {
-        Self {
+    pub fn new(albedo: Color, fuzz: f32) -> Arc<dyn Material> {
+        Arc::new(Self {
             albedo,
             fuzz: fuzz.clamp(0.0, 1.0),
-        }
+        })
     }
 }
 

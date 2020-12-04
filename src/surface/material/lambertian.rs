@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use super::{Material, Scatter};
 use crate::{surface::Hit, Color, Ray, Vector};
 
@@ -6,8 +8,8 @@ pub struct Lambertian {
 }
 
 impl Lambertian {
-    pub fn new(albedo: Color) -> Self {
-        Self { albedo }
+    pub fn new(albedo: Color) -> Arc<dyn Material> {
+        Arc::new(Self { albedo })
     }
 }
 

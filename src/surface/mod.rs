@@ -44,6 +44,6 @@ impl<'m> Hit<'m> {
     }
 }
 
-pub trait Surface {
+pub trait Surface: Send + Sync {
     fn hit(&self, ray: &Ray, t_range: (f32, f32)) -> Option<Hit>;
 }

@@ -1,11 +1,11 @@
 use super::{Hit, Surface};
 use crate::Ray;
 
-pub struct SurfaceList<'a>(Vec<&'a dyn Surface>);
+pub struct SurfaceList<'m>(Vec<Box<dyn Surface + 'm>>);
 
-impl<'a> SurfaceList<'a> {
-    pub fn new(surfaces: &[&'a dyn Surface]) -> SurfaceList<'a> {
-        SurfaceList(surfaces.into())
+impl<'m> SurfaceList<'m> {
+    pub fn new(surfaces: Vec<Box<dyn Surface + 'm>>) -> Self {
+        SurfaceList(surfaces)
     }
 }
 

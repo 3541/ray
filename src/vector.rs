@@ -3,8 +3,16 @@ use core::ops::{Add, AddAssign, Div, Index, Mul, Neg, Sub};
 use once_cell::sync::OnceCell;
 use rand::distributions::{Distribution, Uniform};
 
+use crate::random_unit;
+
 #[derive(Copy, Clone)]
 pub struct Vector([f32; 3]);
+
+static DIST: OnceCell<Uniform<f32>> = OnceCell::new();
+
+fn dist() -> &'static Uniform<f32> {
+    DIST.get_or_init(|| Uniform::new(-1.0, 1.0))
+}
 
 impl Vector {
     pub const fn new(e1: f32, e2: f32, e3: f32) -> Self {
@@ -20,9 +28,12 @@ impl Vector {
         )
     }
 
+    pub fn random_in_unit_range() -> Self {
+        Self::new(random_unit(), random_unit(), random_unit())
+    }
+
     pub fn random_in_unit_sphere() -> Self {
-        static DIST: OnceCell<Uniform<f32>> = OnceCell::new();
-        let dist = DIST.get_or_init(|| Uniform::new(-1.0, 1.0));
+        let dist = dist();
         loop {
             let v = Self::random(dist);
             if v.length_squared() < 1.0 {
@@ -33,6 +44,17 @@ impl Vector {
 
     pub fn random_unit_vector() -> Self {
         Self::random_in_unit_sphere().unit()
+    }
+
+    pub fn random_in_unit_disk() -> Self {
+        let dist = dist();
+        let mut rng = rand::thread_rng();
+        loop {
+            let v = Self::new(dist.sample(&mut rng), dist.sample(&mut rng), 0.0);
+            if v.length_squared() < 1.0 {
+                return v;
+            }
+        }
     }
 
     pub fn dot(&self, rhs: &Vector) -> f32 {

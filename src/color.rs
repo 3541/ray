@@ -38,6 +38,15 @@ impl Color {
     }
 }
 
+impl Default for Color {
+    fn default() -> Self {
+        Self {
+            value: Vector::new(0.0, 0.0, 0.0),
+            samples: 0,
+        }
+    }
+}
+
 impl From<Vector> for Color {
     fn from(v: Vector) -> Self {
         Color {

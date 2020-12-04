@@ -1,23 +1,25 @@
+use std::sync::Arc;
+
 use super::{Hit, Material, Surface};
 use crate::{Ray, Vector};
 
-pub struct Sphere<'m> {
+pub struct Sphere {
     center: Vector,
     radius: f32,
-    material: &'m dyn Material,
+    material: Arc<dyn Material>,
 }
 
-impl<'m> Sphere<'m> {
-    pub fn new(center: Vector, radius: f32, material: &'m dyn Material) -> Self {
-        Self {
+impl Sphere {
+    pub fn new(center: Vector, radius: f32, material: &Arc<dyn Material>) -> Box<dyn Surface> {
+        Box::new(Self {
             center,
             radius,
-            material,
-        }
+            material: Arc::clone(material),
+        })
     }
 }
 
-impl Surface for Sphere<'_> {
+impl Surface for Sphere {
     fn hit(&self, ray: &Ray, t_range: (f32, f32)) -> Option<Hit> {
         let origin_to_center = ray.origin() - &self.center;
         let a = ray.direction().length_squared();
@@ -40,8 +42,8 @@ impl Surface for Sphere<'_> {
                     Hit::new(
                         ray,
                         intersection,
-                        (intersection - self.center) / self.radius,
-                        self.material,
+                        ((intersection - self.center) / self.radius).unit(),
+                        self.material.as_ref(),
                         r,
                     )
                 })

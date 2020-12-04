@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use super::{Material, Scatter};
 use crate::{random_unit, surface::Hit, Color, Ray};
 
@@ -6,8 +8,8 @@ pub struct Dielectric {
 }
 
 impl Dielectric {
-    pub fn new(refractive_index: f32) -> Self {
-        Self { refractive_index }
+    pub fn new(refractive_index: f32) -> Arc<dyn Material> {
+        Arc::new(Self { refractive_index })
     }
 
     fn reflectance(cosine: f32, index_ratio: f32) -> f32 {
