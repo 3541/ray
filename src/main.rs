@@ -62,7 +62,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         Sphere::new(Vector::new(0.0, -100.5, -1.0), 100.0, &mat_ground),
         Sphere::new(Vector::new(0.0, 0.0, -1.0), 0.5, &mat_center),
         Sphere::new(Vector::new(-1.0, 0.0, -1.0), 0.5, &mat_left),
-        Sphere::new(Vector::new(-1.0, 0.0, -1.0), -0.4, &mat_left),
+        Sphere::new(Vector::new(-1.0, 0.0, -1.0), -0.45, &mat_left),
         Sphere::new(Vector::new(1.0, 0.0, -1.0), 0.5, &mat_right),
     ];
 
@@ -73,7 +73,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             .collect::<Vec<&dyn Surface>>(),
     );
 
-    let camera = Camera::new();
+    let camera = Camera::new(
+        Vector::new(-2.0, 2.0, 1.0),
+        Vector::new(0.0, 0.0, -1.0),
+        Vector::new(0.0, 1.0, 0.0),
+        std::f32::consts::FRAC_PI_8,
+        ASPECT_RATIO,
+    );
 
     let mut writer = BufWriter::new(io::stdout());
 

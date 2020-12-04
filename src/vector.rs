@@ -39,6 +39,14 @@ impl Vector {
         self[0] * rhs[0] + self[1] * rhs[1] + self[2] * rhs[2]
     }
 
+    pub fn cross(&self, rhs: &Vector) -> Vector {
+        Vector::new(
+            self[1] * rhs[2] - self[2] * rhs[1],
+            self[2] * rhs[0] - self[0] * rhs[2],
+            self[0] * rhs[1] - self[1] * rhs[0],
+        )
+    }
+
     pub fn length_squared(&self) -> f32 {
         self.dot(self)
     }
