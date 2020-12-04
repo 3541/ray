@@ -11,6 +11,7 @@ rand = "*"
 once_cell = "*"
 num_cpus = "*"
 indicatif = "*"
+structopt = "*"
 
 [profile.release]
 lto = true

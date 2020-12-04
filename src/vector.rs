@@ -1,4 +1,5 @@
 use core::ops::{Add, AddAssign, Div, Index, Mul, Neg, Sub};
+use std::str::FromStr;
 
 use once_cell::sync::OnceCell;
 use rand::distributions::{Distribution, Uniform};
@@ -99,6 +100,25 @@ impl Vector {
             .neg()
             * normal;
         refracted_parallel + refracted_perpendicular
+    }
+}
+
+impl FromStr for Vector {
+    type Err = Box<dyn std::error::Error>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        static MSG: &str = "Couldn't parse vector component.";
+        let ns: Vec<_> = s
+            .split(',')
+            .map(|ss| ss.parse::<f32>())
+            .flatten()
+            .take(3)
+            .collect();
+        Ok(Self::new(
+            *ns.get(0).ok_or(MSG)?,
+            *ns.get(1).ok_or(MSG)?,
+            *ns.get(2).ok_or(MSG)?,
+        ))
     }
 }
 

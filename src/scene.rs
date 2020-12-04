@@ -11,7 +11,7 @@ pub struct Scene {
 }
 
 impl Scene {
-    pub fn random() -> Self {
+    pub fn field() -> Self {
         let mut surfaces: Vec<Box<dyn Surface>> = Vec::with_capacity(500);
 
         let metal_color_dist = Uniform::new(0.5, 1.0);
